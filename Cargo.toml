@@ -1,0 +1,49 @@
+[workspace.package]
+# Managed by cargo-workspaces
+version = "0.0.0"
+authors = ["Russell Wong"]
+edition = "2021"
+rust-version = "1.79.0"
+repository = "https://github.com/russellwmy/rust-tempate"
+license = "MIT"
+
+[workspace.metadata.workspaces]
+version = "0.0.1"
+
+[workspace]
+resolver = "2"
+members = ["hello-world"]
+exclude = []
+
+[workspace.lints.clippy]
+all = { level = "allow", priority = -100 }
+correctness = { level = "deny", priority = -50 }
+suspicious = { level = "deny", priority = -50 }
+perf = { level = "deny", priority = -50 }
+single_char_pattern = "allow"
+clone_on_copy = "deny"
+derivable_impls = "deny"
+redundant_clone = "deny"
+len_zero = "deny"
+or_fun_call = "deny"
+unnecessary_lazy_evaluations = "deny"
+
+[workspace.dependencies]
+
+
+# Note that "bench" profile inherits from "release" profile and "test" profile inherits from "dev" profile.  https://doc.rust-lang.org/cargo/reference/profiles.html#test
+[profile.dev]
+panic = 'abort'
+
+[profile.release]
+overflow-checks = true
+panic = 'abort'
+lto = "fat"
+codegen-units = 1
+
+# A much faster to compile version of `release`, for development use.
+[profile.dev-release]
+inherits = "release"
+lto = false
+codegen-units = 16
+debug-assertions = true
